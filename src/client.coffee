@@ -362,7 +362,7 @@ class Client extends EventEmitter
         if not channelID
             return null
         postData =
-            page = page,
+            page = page
             per_page = perPage
         
         @_apiCall 'POST', '/channels/' + channelID + '/posts', postData, (data, header) =>
