@@ -358,6 +358,17 @@ class Client extends EventEmitter
         chunks = msg.match new RegExp("(.|[\r\n]){1,#{message_limit}}","g")
         return chunks
 
+    findMessagesForChannel: (channelID, page = 0, perPage = 60) ->
+        if not channelID
+            return null
+        postData =
+            page = page,
+            per_page = perPage
+        
+        @_apiCall 'POST', '/channels/' + channelID + '/posts', postData, (data, header) =>
+            @logger.debug 'Channel messages.' data
+            return true
+
     postMessage: (msg, channelID) ->
         postData =
             message: msg
