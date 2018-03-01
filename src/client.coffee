@@ -364,12 +364,13 @@ class Client extends EventEmitter
         postData =
             page: page
             per_page: perPage
-        @_apiCall 'GET', '/channels/' + channelID + '/posts', postData, (data, header) =>
+        @_apiCall 'GET', "/channels/#{channelID}/posts", postData, (data, header) =>
             if data && not data.error
                 @logger.debug "Messages for channel: #{channelID}"
-                return data
+                @emit 'channelMessagesLoaded', data
             else
                 @logger.debug "No messages found."
+                @reconnect()
 
     postMessage: (msg, channelID) ->
         postData =
